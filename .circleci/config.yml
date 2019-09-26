@@ -1,0 +1,12 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: debian:stretch
+
+    steps:
+      - checkout
+
+      - run:
+          name: Build Workflow Docker Image
+          command: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
