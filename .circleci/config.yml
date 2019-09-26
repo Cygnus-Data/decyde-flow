@@ -25,9 +25,9 @@ jobs:
       - run:
           name: Build Workflow Docker Image
           command: |
-              docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+              docker build . --file Dockerfile --tag decyde-flow:$(date +%s)
 
       - run:
           name: Publish Workflow Docker Image
           command: |
-            docker push circleci/cci-demo-docker:$TAG
+            docker push decyde-flow:$(date +%s)
