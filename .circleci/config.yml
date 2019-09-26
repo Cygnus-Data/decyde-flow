@@ -28,7 +28,6 @@ jobs:
               docker build . --file Dockerfile --tag my-image-name:$(date +%s)
 
       - run:
-          name: Build Workflow Docker Image
+          name: Publish Workflow Docker Image
           command: |
-            docker login -u $DOCKER_LOGIN -p $DOCKER_PASSWORD
             docker push circleci/cci-demo-docker:$TAG
