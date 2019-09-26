@@ -25,9 +25,9 @@ jobs:
       - run:
           name: Build Workflow Docker Image
           command: |
-              docker build . --file Dockerfile --tag decyde-flow:$(date +%s)
+              docker build . --file Dockerfile --tag decyde-flow:$CIRCLE_BUILD_NUM
 
       - run:
           name: Publish Workflow Docker Image
           command: |
-            docker push decyde-flow:$(date +%s)
+            docker push decyde-flow:$CIRCLE_BUILD_NUM
