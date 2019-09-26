@@ -8,10 +8,12 @@ jobs:
   build:
     docker:
       - image: debian:stretch
+      - image: docker:17.05.0-ce-git
 
     steps:
       - checkout
-
+      - setup_remote_docker:   # (2)
+           docker_layer_caching: true # (3)
       - run:
           name: Build Workflow Docker Image
           command: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
