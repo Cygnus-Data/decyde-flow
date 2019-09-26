@@ -1,33 +1,38 @@
-version: 2
+version: 2.1
+
+orbs:
+  artifactory: circleci/artifactory@1.0.0
 
 machine:
   services:
     - docker
 
-jobs:
-  build:
-    docker:
-      - image: circleci/cci-demo-docker-primary:0.0.2
-    working_directory: /go/src/github.com/circleci/cci-demo-docker
-    steps:
-      - checkout
-      - setup_remote_docker:   # (2)
-          docker_layer_caching: true # (3)
-      - run:
-          name: Install Docker client
-          command: |
-            set -x
-            VER="17.03.0-ce"
-            curl -L -o /tmp/docker-$VER.tgz https://download.docker.com/linux/static/stable/x86_64/docker-$VER.tgz
-            tar -xz -C /tmp -f /tmp/docker-$VER.tgz
-            mv /tmp/docker/* /usr/bin
+workflows:
+  build-and-publish-docker:
+    jobs:
+    build:
+      docker:
+        - image: circleci/cci-demo-docker-primary:0.0.2
+      working_directory: /go/src/github.com/circleci/cci-demo-docker
+      steps:
+        - checkout
+        - setup_remote_docker:   # (2)
+            docker_layer_caching: true # (3)
+        - run:
+            name: Install Docker client
+            command: |
+              set -x
+              VER="17.03.0-ce"
+              curl -L -o /tmp/docker-$VER.tgz https://download.docker.com/linux/static/stable/x86_64/docker-$VER.tgz
+              tar -xz -C /tmp -f /tmp/docker-$VER.tgz
+              mv /tmp/docker/* /usr/bin
 
-      - run:
-          name: Build Workflow Docker Image
-          command: |
-              docker build . --file Dockerfile --tag decyde-flow:$CIRCLE_BUILD_NUM
+        - run:
+            name: Build Workflow Docker Image
+            command: |
+              docker build . --file Dockerfile --tag decyde-flow:${CIRCLE_BUILD_NUM}
 
-      - run:
-          name: Publish Workflow Docker Image
-          command: |
-            docker push decyde-flow:$CIRCLE_BUILD_NUM
+        - run:
+            name: Publish Workflow Docker Image
+            command: |
+              docker push decyde-flow:${CIRCLE_BUILD_NUM}
