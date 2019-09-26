@@ -8,7 +8,6 @@ jobs:
   build:
     docker:
       - image: debian:stretch
-      - image: docker:17.05.0-ce-git
 
     steps:
       - checkout
@@ -17,5 +16,5 @@ jobs:
            version: 18.06.0-ce
       - run:
           name: Build Workflow Docker Image
-          command: echo Test
-#            docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+          command: |
+            docker build . --file Dockerfile --tag my-image-name:$(date +%s)
