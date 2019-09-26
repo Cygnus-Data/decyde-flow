@@ -17,5 +17,5 @@ jobs:
            version: 18.06.0-ce
       - run:
           name: Build Workflow Docker Image
-          command: |
-            docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+          command: echo Test
+#            docker build . --file Dockerfile --tag my-image-name:$(date +%s)
